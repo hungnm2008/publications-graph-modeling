@@ -1,0 +1,26 @@
+// Load articles published in conferences
+LOAD CSV FROM "file:///article_conf_title_year_abstract_edition.csv" AS row
+WITH row LIMIT 50
+WHERE row[0] IS NOT NULL
+MERGE (a:Article {articleID:row[0], title:row[2], abstract:row[4]})
+MERGE (c:Conference {conferenceID: row[1]})
+MERGE (y:Year {year:row[3]})
+MERGE (e:Edition {editionID:row[5]})
+MERGE (c)-[i:in]->(y)
+MERGE (e)-[o:of]->(c)
+MERGE (a)-[p:published_in]->(e)
+
+// Load keywords and topics
+LOAD CSV FROM "file:///keyword_topic.csv" AS row
+WITH row
+WHERE row[0] IS NOT NULL
+MERGE (k:Keyword {keywordID: row[0], keyword:row[1]})
+MERGE (t:Topic {topic:row[2]})
+MERGE (k)-[r:related_to]->(t)
+
+// Link articles with keywords
+LOAD CSV FROM "file:///article_keyword.csv" AS row
+WITH row
+MATCH (a:Article {articleID:row[0]})
+MATCH (k:Keyword {keywordID:row[1]})
+MERGE (a)-[h:has]->(k)
