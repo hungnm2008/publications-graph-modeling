@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 from random import sample
 
-path_article = 'articles_journals.csv' # path to journal articles
-path_article_ = 'articles_conferences.csv' # path to conference articles
-path_author = 'authors.csv' # path to csv with authors
-path_authored_by = 'authored_by.csv' # path to file output_author_authored_by
-path_reviewed_by = 'reviewed_by.csv' # path to write the reviewed_by file
+path_article = 'data/articles_journals.csv'  # path to journal articles
+path_article_ = 'data/articles_conferences.csv'  # path to conference articles
+path_author = 'data/authors.csv'  # path to csv with authors
+path_authored_by = 'data/authored_by.csv'  # path to file output_author_authored_by
+path_reviewed_by = 'data/reviewed_by.csv'  # path to write the reviewed_by file
 
 row_num = 10000 # number of rows to read
 

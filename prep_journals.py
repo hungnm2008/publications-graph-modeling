@@ -29,10 +29,10 @@ syn_doi = [generate_sentence()[2] for j in range(null_doi_num)]
 syn_abstract = [generate_sentence()[2] for j in range(row_num)]
 syn_pages = np.random.randint(50, 300, null_pages_num)
 
-kws = np.array(pd.read_csv('keyword_topic.csv',
-                            names=['keyword'],
-                            usecols=[0],
-                            index_col=0).index.to_list()) # loading list of keywords from csv
+kws = np.array(pd.read_csv('data/keyword_topic.csv',
+                           names=['keyword'],
+                           usecols=[0],
+                           index_col=0).index.to_list()) # loading list of keywords from csv
 # creating str 'kw1|kw2' where kw1 and kw2 are randomly chosen from kw
 syn_kws = ['|'.join(kws[[np.random.randint(0, len(kws), 2)]]) for x in range(row_num)]
 
@@ -47,4 +47,4 @@ data['keywords'] = syn_kws
 data['abstract'] = syn_abstract
 
 # writing to a csv-file
-data.to_csv('articles_journals.csv', sep=';')
+data.to_csv('data/articles_journals.csv', sep=';')

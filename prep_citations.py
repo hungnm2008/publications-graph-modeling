@@ -1,9 +1,9 @@
 import pandas as pd
 from random import sample
 
-path_article = 'articles_journals.csv' # path to journal articles
-path_article_ = 'articles_conferences.csv' # path to conference articles
-path_cites = 'citations.csv' # path to write cites.csv
+path_article = 'data/articles_journals.csv'  # path to journal articles
+path_article_ = 'data/articles_conferences.csv'  # path to conference articles
+path_cites = 'data/citations.csv'  # path to write cites.csv
 
 row_num = 500000 # number of rows to read
 
