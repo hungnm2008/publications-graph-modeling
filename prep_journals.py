@@ -47,4 +47,4 @@ data['keywords'] = syn_kws
 data['abstract'] = syn_abstract
 
 # writing to a csv-file
-data.to_csv('articles_conferences.csv', sep=';')
+data.to_csv('articles_journals.csv', sep=';')
