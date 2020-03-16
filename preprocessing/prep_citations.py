@@ -1,11 +1,11 @@
 import pandas as pd
 from random import sample
 
-path_article = '../data/articles_journals.csv'  # path to journal articles
-path_article_ = '../data/articles_conferences.csv'  # path to conference articles
-path_cites = '../data/citations.csv'  # path to write cites.csv
+path_article = r'../data/articles_journals.csv'  # path to journal articles
+path_article_ = r'../data/articles_conferences.csv'  # path to conference articles
+path_cites = r'../data/citations.csv'  # path to write cites.csv
 
-row_num = 500000 # number of rows to read
+row_num = 100000 # number of rows to read
 
 # extracting articleIDs from both journal article and conf article files
 articles = pd.read_csv(path_article, usecols=[0],
@@ -20,4 +20,4 @@ cites_df = pd.DataFrame.from_records(cites,
                                     columns=['articleID','cites']) # converting into Dataframe
 
 # writing to a csv-file
-cites_df.to_csv(path_cites, sep=';')
+cites_df.to_csv(path_cites, sep=';', header=True)

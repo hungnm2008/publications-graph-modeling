@@ -5,9 +5,9 @@ from random import choice
 path_uni = 'Colleges_and_Universities.csv' # path to file with universities
 path_comp = 'companies.csv' # path to file with companies
 path_author = 'sdm data/output_author.csv' # path to authors.csv
-path_author_new = 'authors.csv' # path to write new authors.csv
+path_author_new = 'data/authors.csv'  # path to write new authors.csv
 
-row_num = 1_000_000 # number of rows to read
+row_num = 10000 # number of rows to read
 
 # reading files
 uni = pd.read_csv(path_uni, usecols=[4], names=['orgName'], header=0) # reading university names
@@ -28,4 +28,4 @@ affiliations.reset_index(drop=True, inplace=True) # for correct joining
 author_final = author.join(affiliations)
 
 # writing to file
-author_final.to_csv(path_author_new, sep=';', index=False)
+author_final.to_csv(path_author_new, sep=';', index=False, header=False)

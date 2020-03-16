@@ -51,14 +51,14 @@ def impact_factor(tx, year):
 
 with driver.session() as session:
 
-    # ### Find h-indexes
-    # print(pd.DataFrame(session.write_transaction(find_h_indexes).data()))
+    ### Find h-indexes
+    print(pd.DataFrame(session.write_transaction(find_h_indexes).data()))
 
-    # ### 3 MOST CITED PAPERS PER CONFERENCES
-    # print(pd.DataFrame(session.write_transaction(top_3_articles).data()))
+    ### 3 MOST CITED PAPERS PER CONFERENCES
+    print(pd.DataFrame(session.write_transaction(top_3_articles).data()))
 
-    # #For each conference find its community
-    # print(pd.DataFrame(session.write_transaction(authors_publish_at_least_4_editions).data()))
+    #For each conference find its community
+    print(pd.DataFrame(session.write_transaction(authors_publish_at_least_4_editions).data()))
 
     # Calculate impact factor
     ipYear=1973 # set the year for calculating impact factor

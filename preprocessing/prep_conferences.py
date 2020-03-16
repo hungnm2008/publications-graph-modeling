@@ -35,7 +35,7 @@ keyword_topic = pd.DataFrame(columns=['keyword', 'topic'],
                                     ['hadoop','Computer Science'],
                                     ['Amplitude','Physics'],
                                     ['Quantum','Physics']])
-keyword_topic.to_csv('../data/keyword_topic.csv',header=False, index=False)
+keyword_topic.to_csv(r'../data/keyword_topic.csv',header=False, index=False)
 
 # Random keywords
 terms = keyword_topic['keyword']
@@ -56,4 +56,4 @@ final_df.drop_duplicates(subset="articleID",keep='first', inplace=True)
 
 # Write to file
 final_df.columns = ['articleID', 'conferenceID', 'title', 'doi', 'year', 'abstract', 'edition', 'keywords']
-final_df.to_csv('../data/articles_conferences.csv',header=True, index=False)
+final_df.to_csv(r'../data/articles_conferences.csv',header=True, index=False)

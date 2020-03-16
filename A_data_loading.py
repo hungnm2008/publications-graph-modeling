@@ -8,14 +8,13 @@ def delete_all(tx):
 
 #______________AUTHORSHIPS______________#
 def import_authors(tx):
-    tx.run("LOAD CSV FROM \"file:///authors.csv\" AS row FIELDTERMINATOR ','\
+    tx.run("LOAD CSV WITH HEADERS FROM \"file:///authors.csv\" AS row FIELDTERMINATOR ','\
             WITH row\
-            CREATE (a:Author {authorID:row[0], name:row[1]});")
+            CREATE (a:Author {authorID:row.authorID, name:row.authorName, organization:row.orgName, orgtype:row.orgType});")
 def constraint_authors(tx):
     tx.run("CREATE CONSTRAINT ON (n:Author) ASSERT n.authorID IS UNIQUE;")
 def import_articles_authored_by(tx):
-    tx.run("LOAD CSV FROM \"file:///authored_by.csv\" AS row FIELDTERMINATOR ','\
-            WITH row\
+    tx.run("LOAD CSV FROM \"file:///authored_by.csv\" AS row\
             MATCH (au:Author {authorID:row[1]}), (a:Article {articleID:row[0]})\
             CREATE (au)-[w:write]->(a);")
 
@@ -91,7 +90,7 @@ with driver.session() as session:
 
     session.write_transaction(constraint_authors)
     print("finish indexing authors")
-
+    #
     session.write_transaction(import_keywords_topics)
     print("finish loading keywords_topics")
     session.write_transaction(constraint_keywords)
@@ -105,8 +104,8 @@ with driver.session() as session:
 
     session.write_transaction(constraint_articles)
     print("finish indexing articles")
-
-    session.write_transaction(import_articles_authored_by) #200 000 rows
+    #
+    session.write_transaction(import_articles_authored_by) #500 000 rows
     print("finish loading authorships")
 
     session.write_transaction(import_citations) #100 000 rows
