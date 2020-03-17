@@ -10,7 +10,7 @@ def delete_all(tx):
 def import_authors(tx):
     tx.run("LOAD CSV WITH HEADERS FROM \"file:///authors.csv\" AS row FIELDTERMINATOR ','\
             WITH row\
-            CREATE (a:Author {authorID:row.authorID, name:row.authorName, organization:row.orgName, orgtype:row.orgType});")
+            CREATE (a:Author {authorID:row.authorID, name:row.authorName});")
 def constraint_authors(tx):
     tx.run("CREATE CONSTRAINT ON (n:Author) ASSERT n.authorID IS UNIQUE;")
 def import_articles_authored_by(tx):
