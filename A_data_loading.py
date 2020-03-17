@@ -81,6 +81,30 @@ def import_reviewed_by(tx):
             MATCH(au:Author{authorID:reviewer})\
             CREATE (au)-[r:reviews]->(a);")
 
+#____________AFFILIATION(as nodes)____________#
+def import_affiliations(tx):
+    tx.run("LOAD CSV WITH HEADERS FROM \"file:///authors.csv\" AS row\
+            WITH row\
+            MATCH (au:Author{authorID:row.authorID})\
+            MERGE(o:Organisation{orgName:row.orgName, orgType:row.orgType})\
+            CREATE(au)-[a:affiliated_with]->(o);")
+
+#______________MODIFYING REVIEWS EDGE_____________#
+def modify_reviews(tx):
+    tx.run("LOAD CSV WITH HEADERS FROM \"file:///reviewed_by_decision.csv\" AS row FIELDTERMINATOR ';'\
+            WITH split(row.reviewerID, '|') AS reviewers, row\
+            WITH split(row.reviews, '|') AS reviewss, row, reviewers\
+            WITH split(row.decisions, '|') AS decisions, row, reviewss, reviewers\
+            UNWIND reviewers AS reviewer\
+            MATCH (a:Article{articleID:row.articleID}), (au:Author{authorID:row.reviewerID})\
+            MATCH (au)-[r:reviews]->(a)\
+            with r, reviewss, decisions\
+            unwind reviewss as review\
+            SET r.review = review\
+            with r, decisions\
+            UNWIND decisions as decision\
+            set r.decision = decision;")
+
 with driver.session() as session:
 
     session.write_transaction(delete_all)
@@ -113,6 +137,11 @@ with driver.session() as session:
 
     session.write_transaction(import_reviewed_by) #10 000 rows
     print("finish loading reviewed_by")
+
+
+    session.write_transaction(modify_reviews) #100 000 rows
+    print("finish loading modified reviews")
+    
 
 
 
