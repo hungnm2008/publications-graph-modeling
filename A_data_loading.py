@@ -82,12 +82,20 @@ def import_reviewed_by(tx):
             CREATE (au)-[r:reviews]->(a);")
 
 #____________AFFILIATION(as nodes)____________#
-def import_affiliations(tx):
+def import_affiliations_(tx):
     tx.run("LOAD CSV WITH HEADERS FROM \"file:///authors.csv\" AS row\
             WITH row\
             MATCH (au:Author{authorID:row.authorID})\
             MERGE(o:Organisation{orgName:row.orgName, orgType:row.orgType})\
             CREATE(au)-[a:affiliated_with]->(o);")
+
+#____________AFFILIATION(as properties)____________#
+def import_affiliations(tx):
+    tx.run("LOAD CSV WITH HEADERS FROM \"file:///authors.csv\" AS row\
+            WITH row\
+            MATCH (au:Author{authorID:row.authorID})\
+            SET au.organisation = row.orgName\
+            SET au.orgType = row.orgType;")
 
 #______________MODIFYING REVIEWS EDGE_____________#
 def modify_reviews(tx):
@@ -101,11 +109,13 @@ def modify_reviews(tx):
             (au3:Author{authorID: review3_info[0]})\
             MATCH(au1)-[r1:reviews]->(a)\
             MATCH(au2)-[r2:reviews]->(a)\
-            MERGE (au3)-[r3:reviews{review:review3_info[1], decision:review3_info[2]}]->(a)\
+            MATCH (au3)-[r3:reviews]->(a)\
             SET r1.review = review1_info[1]\
             SET r1.decision = review1_info[2]\
             SET r2.review = review2_info[1]\
-            SET r2.decision = review2_info[2]")
+            SET r2.decision = review2_info[2]\
+            SET r3.review = review3_info[1]\
+            SET r3.decision = review3_info[2];")
 
 
 with driver.session() as session:
