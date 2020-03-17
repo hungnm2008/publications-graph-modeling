@@ -92,51 +92,54 @@ def import_affiliations(tx):
 #______________MODIFYING REVIEWS EDGE_____________#
 def modify_reviews(tx):
     tx.run("LOAD CSV WITH HEADERS FROM \"file:///reviewed_by_decision.csv\" AS row FIELDTERMINATOR ';'\
-            WITH split(row.reviewerID, '|') AS reviewers, row\
-            WITH split(row.reviews, '|') AS reviewss, row, reviewers\
-            WITH split(row.decisions, '|') AS decisions, row, reviewss, reviewers\
-            UNWIND reviewers AS reviewer\
-            MATCH (a:Article{articleID:row.articleID}), (au:Author{authorID:row.reviewerID})\
-            MATCH (au)-[r:reviews]->(a)\
-            with r, reviewss, decisions\
-            unwind reviewss as review\
-            SET r.review = review\
-            with r, decisions\
-            UNWIND decisions as decision\
-            set r.decision = decision;")
+            WITH split(row.review1, '|') AS review1_info,\
+            split(row.review2, '|') AS review2_info,\
+            split(row.review3, '|') AS review3_info, row\
+            MATCH (a:Article{articleID:row.articleID}),\
+            (au1:Author{authorID: review1_info[0]}),\
+            (au2:Author{authorID: review2_info[0]}),\
+            (au3:Author{authorID: review3_info[0]})\
+            MATCH(au1)-[r1:reviews]->(a)\
+            MATCH(au2)-[r2:reviews]->(a)\
+            MERGE (au3)-[r3:reviews{review:review3_info[1], decision:review3_info[2]}]->(a)\
+            SET r1.review = review1_info[1]\
+            SET r1.decision = review1_info[2]\
+            SET r2.review = review2_info[1]\
+            SET r2.decision = review2_info[2]")
+
 
 with driver.session() as session:
 
-    session.write_transaction(delete_all)
+    # session.write_transaction(delete_all)
 
-    session.write_transaction(import_authors) #1000 rows
-    print("finish loading authors")
+    # session.write_transaction(import_authors) #1000 rows
+    # print("finish loading authors")
 
-    session.write_transaction(constraint_authors)
-    print("finish indexing authors")
-    #
-    session.write_transaction(import_keywords_topics)
-    print("finish loading keywords_topics")
-    session.write_transaction(constraint_keywords)
-    print("finish indexing keywords")
+    # session.write_transaction(constraint_authors)
+    # print("finish indexing authors")
+    
+    # session.write_transaction(import_keywords_topics)
+    # print("finish loading keywords_topics")
+    # session.write_transaction(constraint_keywords)
+    # print("finish indexing keywords")
 
-    session.write_transaction(import_articles_in_conferences) #50 000 rows
-    print("finish loading articles_in_conferences")
+    # session.write_transaction(import_articles_in_conferences) #50 000 rows
+    # print("finish loading articles_in_conferences")
 
-    session.write_transaction(import_articles_in_journals) #50 000 rows
-    print("finish loading articles_in_journals")
+    # session.write_transaction(import_articles_in_journals) #50 000 rows
+    # print("finish loading articles_in_journals")
 
-    session.write_transaction(constraint_articles)
-    print("finish indexing articles")
-    #
-    session.write_transaction(import_articles_authored_by) #500 000 rows
-    print("finish loading authorships")
+    # session.write_transaction(constraint_articles)
+    # print("finish indexing articles")
+    # #
+    # session.write_transaction(import_articles_authored_by) #500 000 rows
+    # print("finish loading authorships")
 
-    session.write_transaction(import_citations) #100 000 rows
-    print("finish loading citations")
+    # session.write_transaction(import_citations) #100 000 rows
+    # print("finish loading citations")
 
-    session.write_transaction(import_reviewed_by) #10 000 rows
-    print("finish loading reviewed_by")
+    # session.write_transaction(import_reviewed_by) #10 000 rows
+    # print("finish loading reviewed_by")
 
 
     session.write_transaction(modify_reviews) #100 000 rows
