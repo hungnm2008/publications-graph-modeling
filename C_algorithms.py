@@ -36,4 +36,4 @@ with driver.session() as session:
     # articleRank
     print(pd.DataFrame(session.write_transaction(article_rank).data()))
     # triangle detection
-    print(pd.DataFrame(session.write_transaction(triangle_detection).data()))
+    # print(pd.DataFrame(session.write_transaction(triangle_detection).data()))

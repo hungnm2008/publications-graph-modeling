@@ -59,11 +59,11 @@ def run_article_rank(list_of_related_articles):
 
 def get_gurus(top_100_articles):
     with driver.session() as session:
-        return session.run("Match(au:Author)-[w:write]->(a:Article)\
+        return session.run("MATCH (au:Author)-[w:write]->(a:Article)\
                             WHERE a.articleID IN {top_100_articles}\
-                            WITH au.name as authorName, count(w) as numberOfArticles\
+                            WITH au.name AS authorName, COUNT(w) AS numberOfArticles\
                             WHERE numberOfArticles>=2\
-                            RETURN authorName as Gurus, numberOfArticles\
+                            RETURN authorName AS Gurus, numberOfArticles\
                             ORDER BY numberOfArticles DESC",
                             top_100_articles=top_100_articles).data()
 
