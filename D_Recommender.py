@@ -30,7 +30,7 @@ def get_related_conferences(keywords):
                     WHERE k.keyword IN {keywords} and confName = c.conferenceID\
                     WITH c.conferenceID as confName, totalArticles,\
                     COLLECT(distinct a.articleID) as listOfRelatedArticles, COUNT(distinct a.articleID) AS totalRelatedArticles\
-                    WHERE (toFloat(totalRelatedArticles)/toFloat(totalArticles)>=0.9)\
+                    WHERE (toFloat(totalRelatedArticles)/totalArticles>=0.9)\
                     RETURN confName, totalRelatedArticles, totalArticles, listOfRelatedArticles",
                     keywords = keywords).data()
 
@@ -42,7 +42,7 @@ def get_related_journals(keywords):
                     WHERE k.keyword IN {keywords} and journalName = j.journalID\
                     WITH j.journalID as journalName, totalArticles,\
                     COLLECT(distinct a.articleID) as listOfRelatedArticles, COUNT(distinct a.articleID) AS totalRelatedArticles\
-                    WHERE (toFloat(totalRelatedArticles)/toFloat(totalArticles)>=0.9)\
+                    WHERE (toFloat(totalRelatedArticles)/totalArticles>=0.9)\
                     RETURN journalName, totalRelatedArticles, totalArticles, listOfRelatedArticles",
                     keywords=keywords).data()
 
