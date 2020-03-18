@@ -3,11 +3,10 @@ import numpy as np
 from random import sample
 from loremipsum import generate_sentence
 
-path_article = 'sdm data/articles_100.csv' # path to journal articles
-path_article_ = 'articles_conferences.csv' # path to conference articles
-path_author = 'sdm data/output_author.csv' # path to csv with authors
-path_authored_by = 'sdm data/output_author_authored_by.csv' # path to file output_author_authored_by
-path_reviewed_by = 'sdm data/reviewed_by_decision.csv' # path to write the reviewed_by file
+path_article = r'../data/articles_journals.csv' # path to journal articles
+path_article_ = r'../data/articles_conferences.csv' # path to conference articles
+path_authored_by = r'../data/authored_by.csv' # path to file output_author_authored_by
+path_reviewed_by = r'../data/reviewed_by_decision_by_property.csv' # path to write the reviewed_by file
 
 row_num = 100_000 # number of rows to read
 

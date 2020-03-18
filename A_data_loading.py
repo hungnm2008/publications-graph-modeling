@@ -94,8 +94,7 @@ def import_affiliations(tx):
     tx.run("LOAD CSV WITH HEADERS FROM \"file:///authors.csv\" AS row\
             WITH row\
             MATCH (au:Author{authorID:row.authorID})\
-            SET au.organisation = row.orgName\
-            SET au.orgType = row.orgType;")
+            SET au.organisation = row.orgName, au.orgType=row.orgType;")
 
 #______________MODIFYING REVIEWS EDGE_____________#
 def modify_reviews(tx):
@@ -120,40 +119,43 @@ def modify_reviews(tx):
 
 with driver.session() as session:
 
-    # session.write_transaction(delete_all)
+    session.write_transaction(delete_all)
 
-    # session.write_transaction(import_authors) #1000 rows
-    # print("finish loading authors")
+    session.write_transaction(import_authors) #1000 rows
+    print("finished loading authors")
 
-    # session.write_transaction(constraint_authors)
-    # print("finish indexing authors")
+    session.write_transaction(constraint_authors)
+    print("finished indexing authors")
     
-    # session.write_transaction(import_keywords_topics)
-    # print("finish loading keywords_topics")
-    # session.write_transaction(constraint_keywords)
-    # print("finish indexing keywords")
+    session.write_transaction(import_keywords_topics)
+    print("finished loading keywords_topics")
 
-    # session.write_transaction(import_articles_in_conferences) #50 000 rows
-    # print("finish loading articles_in_conferences")
+    session.write_transaction(constraint_keywords)
+    print("finished indexing keywords")
 
-    # session.write_transaction(import_articles_in_journals) #50 000 rows
-    # print("finish loading articles_in_journals")
+    session.write_transaction(import_articles_in_conferences) #50 000 rows
+    print("finished loading articles_in_conferences")
 
-    # session.write_transaction(constraint_articles)
-    # print("finish indexing articles")
-    # #
-    # session.write_transaction(import_articles_authored_by) #500 000 rows
-    # print("finish loading authorships")
+    session.write_transaction(import_articles_in_journals) #50 000 rows
+    print("finished loading articles_in_journals")
 
-    # session.write_transaction(import_citations) #100 000 rows
-    # print("finish loading citations")
+    session.write_transaction(constraint_articles)
+    print("finished indexing articles")
+    
+    session.write_transaction(import_articles_authored_by) #500 000 rows
+    print("finished loading authorships")
 
-    # session.write_transaction(import_reviewed_by) #10 000 rows
-    # print("finish loading reviewed_by")
+    session.write_transaction(import_citations) #100 000 rows
+    print("finished loading citations")
 
+    session.write_transaction(import_reviewed_by) #10 000 rows
+    print("finished loading reviewed_by")
 
-    session.write_transaction(modify_reviews) #100 000 rows
-    print("finish loading modified reviews")
+    session.write_transaction(import_affiliations)
+    print("finished loading affiliations")
+
+    session.write_transaction(modify_reviews) #10 000 rows
+    print("finished loading modified reviews")
     
 
 

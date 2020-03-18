@@ -4,8 +4,8 @@ from random import sample, shuffle, randint
 from loremipsum import generate_sentence
 from math import ceil
 
-path_reviewed_by = 'sdm data/reviewed_by.csv' # path to reviewed_by.csv
-path_reviewed_by_decision = 'sdm data/reviewed_by_decision.csv' # path to write the reviewed_by file
+path_reviewed_by = r'../data/reviewed_by.csv' # path to reviewed_by.csv
+path_reviewed_by_decision = r'../data/reviewed_by_decision.csv' # path to write the reviewed_by file
 
 row_num = 10_000 # number of rows to read
 

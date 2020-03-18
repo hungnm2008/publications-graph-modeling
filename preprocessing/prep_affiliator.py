@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 from random import choice
 
-path_uni = 'Colleges_and_Universities.csv' # path to file with universities
-path_comp = 'companies.csv' # path to file with companies
-path_author = 'sdm data/output_author.csv' # path to authors.csv
-path_author_new = 'data/authors.csv'  # path to write new authors.csv
+path_uni = r'../data/Colleges_and_Universities.csv' # path to file with universities
+path_comp = r'../data/companies.csv' # path to file with companies
+path_author = r'../data/output_author.csv' # path to authors.csv
+path_author_new = r'../data/authors.csv'  # path to write new authors.csv
 
 row_num = 10000 # number of rows to read
 
